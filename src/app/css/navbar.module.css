@@ -1,0 +1,25 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: transparent;
+  padding-inline: 2rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--color-medium-gray);
+}
+
+.navbar ul {
+  display: flex;
+  list-style-type: none;
+  gap: 1.5rem;
+}
+
+.navbar li {
+  padding: .8rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color .3s ease-out;
+}
+
+.navbar li:hover {
+  cursor: pointer;
+  background-color: var(--color-light-gray);
+}
