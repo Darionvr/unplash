@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react';
 import Search from "./ui/search";
 import Link from "next/link";
 import Image from "next/image";
+import { UnsplashPhoto } from "@/lib/definitions";
 
 
 export default function Home() {
 
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<UnsplashPhoto[]>([]);
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function Home() {
 
       {isVisible &&
         <ul className={styles.gallery} >
-          {images.map((img: any) => (
+          {images.map((img) => (
             <li key={img.id}>  <Link href={`/photo/${img.id}`}>
               <Image src={img.urls.small}
               alt={img.alt_description || 'Unsplash image'}

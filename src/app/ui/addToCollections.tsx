@@ -91,7 +91,7 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
                     <img  src="/resources/Plus.svg" alt="close icon" />
                 </button>
 
-                {collections.map((c: any) => (
+                {collections.map((c) => (
                     <button key={c._id} className={styles.collection} onClick={() => handleSave(c._id)} disabled={isSaving}>
                         <img src={c.thumbnail} alt="Collection thumbnail" />
                         <p>{c.name}</p>
