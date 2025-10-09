@@ -2,14 +2,14 @@
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
-import styles from '@/app/css/collections.module.css';
+import styles from '@/app/css/addNewCollection.module.css';
 
 interface DialogProps {
-  isVisible: boolean;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    isVisible: boolean;
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddCollectionDialog = ({isVisible, setIsVisible} :DialogProps) => {
+const AddCollectionDialog = ({ isVisible, setIsVisible }: DialogProps) => {
 
     const [collectionName, setCollectionName] = useState('');
     const [isSaving, setIsSaving] = useState(false);
@@ -25,7 +25,7 @@ const AddCollectionDialog = ({isVisible, setIsVisible} :DialogProps) => {
         }
     }, [isVisible]);
 
-        useEffect(() => {
+    useEffect(() => {
         if (feedback) {
             const timer = setTimeout(() => setFeedback(''), 4000);
             return () => clearTimeout(timer);
@@ -70,12 +70,15 @@ const AddCollectionDialog = ({isVisible, setIsVisible} :DialogProps) => {
                     value={collectionName}
                     onChange={(e) => setCollectionName(e.target.value)}
                 />
-                <button onClick={handleSave} disabled={isSaving}>
-                    {isSaving ? 'Saving...' : 'Save'}
-                </button>
-                <button onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
-                    Cancel
-                </button>
+                <div className={styles.buttons}>
+                    <button onClick={handleSave} disabled={isSaving}>
+                        {isSaving ? 'Saving...' : 'Save'}
+                    </button>
+                    <button onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
+                        Cancel
+                    </button>
+                </div>
+
                 {feedback && <p className="text-red-500 mt-2">{feedback}</p>}
             </div>
         </dialog>

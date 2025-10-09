@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import styles from '@/app/css/collections.module.css';
+import styles from '@/app/css/collectionsPage.module.css'
 import AddCollectionDialog from './addCollection';
 
 type Collection = {
@@ -17,30 +17,32 @@ export default function CollectionClient({ collections }: { collections: Collect
     const [isVisible, setIsVisible] = useState(false);
 
     return (
-        <main>
-
-            <button onClick={() => setIsVisible(true)}>
-                <img src="/resources/Plus.svg" alt="Add collection" />
-                <p>Add New Collection</p>
-            </button>
+        <main className={styles.main}>
 
             <ul>
                 {collections.map((col) => (
                     <li key={col._id}>
                         <Link href={`/collections/${col.name} `}>
-                            <h2>{col.name}</h2>
-                            {col.thumbnail ? (
-                                <img src={col.thumbnail} alt={`Preview de ${col.name}`} />
-                            ) : (
-                                <div >Sin imagen</div>
-                            )}
+                            <img src={col.thumbnail} alt={`Preview de ${col.name}`} />
+
                         </Link>
-                        <p>{col.total}</p>
-                       
+                        <h3>{col.name}</h3>
+                        <h4>{col.total} total</h4>
+
 
                     </li>
                 ))}
+                <li>
+                    <button onClick={() => setIsVisible(true)}>
+                        <img src="/resources/Plus.svg" alt="Add collection" />
+                        <p>Add new collection</p>
+                    </button>
+                </li>
             </ul>
+
+
+
+
 
             {isVisible && (
                 <AddCollectionDialog isVisible={isVisible} setIsVisible={setIsVisible} />

@@ -6,7 +6,8 @@ import Link from 'next/link'
 const Navbar = () => {
   return (
    <nav className={styles.navbar}>
-    <img className={styles.logo} src="/resources/Logo.svg" alt="Unplash Logo" />
+    <Link href={'/'}> <img className={styles.logo} src="/resources/Logo.svg" alt="Unplash Logo" /></Link>
+    
     <ul>
         <li>
             <Link href={'/'}>Home</Link>

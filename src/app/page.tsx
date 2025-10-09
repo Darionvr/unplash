@@ -30,11 +30,7 @@ export default function Home() {
   }, [query]);
 
   useEffect(() => {
-    if (images.length >= 1) {
-      setIsVisible(true)
-    } else{
-      setIsVisible(false)
-  }
+      setIsVisible(images.length > 0)
   }, [images])
 
   return (

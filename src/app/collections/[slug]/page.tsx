@@ -2,6 +2,7 @@
 import React, { useEffect, useState, use } from 'react'
 import { Photo, Collection } from '@/lib/definitions';
 import Link from 'next/link';
+import style from '@/app/css/collectionDetail.module.css'
 
 
 
@@ -32,13 +33,15 @@ export default function CollectionDetail({ params }: { params: Promise<{ slug: s
 
 
   return (
-    <main>
-      <h1>{collection?.name}</h1>
+    <main className={style.main}>
+      <h1 className={style.gradient}>{collection?.name}</h1>
       <p> xx Photos</p>
-      <ul >
+      <ul className={photos.length < 4 ? style.flexGallery : style.columnGallery}>
         {photos.map((photo) => (
           <li key={photo.id} >
-           <Link href={`/photo/${photo.id}`}><img src={photo.url} alt={photo.alt} /> </Link> 
+            <Link href={`/photo/${photo.id}`}>
+              <img src={photo.url} alt={photo.alt} />
+            </Link>
           </li>
         ))}
       </ul>

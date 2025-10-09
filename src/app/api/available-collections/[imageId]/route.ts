@@ -15,6 +15,7 @@ export async function GET(req: Request, context: { params: Promise<{ imageId: st
   const formatted = collections.map((col) => ({
     _id: col._id.toString(),
     name: col.name,
+     thumbnail: col.images?.[0]?.url || null,
   }));
 
   return NextResponse.json(formatted);

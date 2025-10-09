@@ -2,7 +2,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import CollectionClient from '@/app/ui/collectionClient';
 import Link from 'next/link';
 import { Suspense } from 'react';
-
+import styles from '@/app/css/collectionsPage.module.css'
 
 export default async function CollectionsPage() {
 
@@ -24,12 +24,12 @@ export default async function CollectionsPage() {
     console.log(collections)
     return (
         <>
-            <header>
-                <h1>Collections</h1>
-                <p>
+            <header className={styles.header}>
+                <h1 className={styles.gradient}>Collections</h1>
+                <h2>
                     Explore the world through collections of beautiful photos free to use under the{' '}
                     <Link href="#">Unsplash Licence</Link>
-                </p>
+                </h2>
             </header>
             <Suspense fallback={<p>Cargando colecciones...</p>}>
                 <CollectionClient collections={collections} />;

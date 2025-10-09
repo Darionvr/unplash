@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
 import { CollectionsType } from '@/lib/definitions';
+import styles from '@/app/css/addToCollections.module.css'
 
 interface DialogProps {
     isVisible: boolean;
@@ -78,7 +79,7 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
     };
 
     return (
-        <dialog ref={dialogRef}>
+        <dialog ref={dialogRef} className={styles.dialog}>
             <div>
                 <p>Add to Collections</p>
                 <input
@@ -89,14 +90,16 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
                 <button onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
                     Cancel
                 </button>
+
                 {collections.map((c: any) => (
-                    <div key={c._id}>
-                        {/*  <img src="#" alt="None" /> */}
+                    <button key={c._id} className={styles.collection} onClick={() => handleSave(c._id)} disabled={isSaving}>
+                        <img src={c.thumbnail} alt="Collection thumbnail" />
                         <p>{c.name}</p>
-                        <button onClick={() => handleSave(c._id)} disabled={isSaving}>
-                            {isSaving ? 'Saving...' : 'Save'}
-                        </button>
-                    </div>
+                        <div className={styles.add}>
+                            <img src="/resources/Plus.svg" alt="Add icon" />
+                            <p> {isSaving ? 'Saving...' : 'Add to collection'}</p>
+                        </div>
+                    </button>
                 ))}
 
 

@@ -26,6 +26,7 @@ export type CollectionsType = {
   _id: string;
   name: string;
   total: number;
+  thumbnail: string;
 };
 
 export type Photo = {

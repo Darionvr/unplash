@@ -4,12 +4,10 @@ import AddToCollectionsDialog from '@/app/ui/addToCollections';
 import { UnsplashPhoto } from '@/lib/definitions';
 import Image from 'next/image';
 import styles from '@/app/css/photoPage.module.css'
-import { CollectionsType, Photo } from '@/lib/definitions';
+import { CollectionsType } from '@/lib/definitions';
 import Link from 'next/link';
 
-
 const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
-
 
     const [isVisible, setIsVisible] = useState(false);
     const [collections, setCollections] = useState<CollectionsType[]>([])
@@ -25,7 +23,6 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
         }
         : null;
 
-
     useEffect(() => {
         if (!id) return;
         const fetchPhoto = async () => {
@@ -37,7 +34,6 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
             const data = await res.json();
             setPhoto(data);
         };
-
         fetchPhoto();
     }, [id]);
 
@@ -51,7 +47,6 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
         if (photo) fetchCollections();
     }, [photo, isVisible]);
 
-
     return (
         <main className={styles.main}>
             <section>
@@ -64,31 +59,39 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
                         className={styles.photo} />
                 )}
             </section>
-            <section>
-                <div>
+            <section >
+                <div className={styles.userInfo}>
                     <img src={photo?.user.profile_image.small} alt="user's profile image" />
                     <p> {photo?.user.name}</p>
-                    <div>
-                        <button onClick={() => setIsVisible(true)}>Add to collection</button>
-                        <button>Download</button>
-                    </div>
                 </div>
-                <ul>
-                    <li> Collections</li>
-                    {collections.map((col) => (
-                        <li key={col._id}>
-                            <Link href={`/collections/${col.name}`}>
+                <p className={styles.date}> Published on xx</p>
+                <div className={styles.actions}>
+                    <button onClick={() => setIsVisible(true)}> <img src="/resources/Plus.svg" alt="Plus Icon" />Add to collection</button>
+                    <button><img src="/resources/down arrow.svg" alt="Download icon" />Download </button>
+                </div>
+                <p className={styles.title}> Collections</p>
 
-                                {/*  <img src="" alt="" /> */}
-                                <p>{col.name}</p>
-                                <p>{col.total}</p>
-
-                            </Link>
-
-
-                        </li>
-                    ))}
-                </ul>
+                {collections.length > 0 ? (
+                    <ul className={styles.collections}>
+                        {collections.map((col) => (
+                            <li key={col._id}>
+                                <Link href={`/collections/${col.name}`}>
+                                    <img src={col.thumbnail} alt="collection thumbnail" />
+                                    <div>
+                                        <p>{col.name}</p>
+                                        <p className={styles.total}>{col.total} Photos</p>
+                                    </div>
+                                    <div className={styles.remove}>
+                                        <img src="/resources/Remove.svg" alt="remove icon" />
+                                        <p>remove</p>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>You haven’t added this photo to a collection yet</p>
+                )}
 
             </section>
             {isVisible && imageData && <AddToCollectionsDialog isVisible={isVisible} setIsVisible={setIsVisible} imageData={imageData} />}
