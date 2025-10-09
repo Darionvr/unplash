@@ -1,6 +1,8 @@
 'use client';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import styles from '@/app/page.module.css'
+import { useRef } from 'react';
+
 
 interface SearchProps {
     placeholder: string;
@@ -24,9 +26,18 @@ export default function Search({ placeholder, isVisible, setIsVisible }: SearchP
         replace(`${pathname}?${params.toString()}`)
     };
 
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    const triggerSearch = () => {
+        const value = inputRef.current?.value || '';
+        handleSearch(value);
+        setIsVisible(true);
+    };
+
+
     return (
         <div className={styles.search} data-visible={isVisible ? 'true' : 'false'}>
-            { isVisible ? '' :   (
+            {isVisible ? '' : (
                 <>
                     <h1>Search</h1>
                     <p>Search high-resolution images from Unsplash</p>
@@ -36,17 +47,17 @@ export default function Search({ placeholder, isVisible, setIsVisible }: SearchP
 
             <div>
                 <input
+                ref={inputRef}
                     placeholder={placeholder}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter') {
-                            handleSearch((e.target as HTMLInputElement).value);
-                            setIsVisible(true)
+                          triggerSearch();
                         }
                     }}
                     defaultValue={searchParams.get('query')?.toString()}
                     type='text'
                 />
-                <img src="/resources/Search.svg" alt="search icon" />
+                <img src="/resources/Search.svg" alt="search icon" onClick={triggerSearch} />
             </div>
         </div>
 
