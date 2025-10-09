@@ -27,7 +27,7 @@ export default function CollectionClient({ collections }: { collections: Collect
 
                         </Link>
                         <h3>{col.name}</h3>
-                        <h4>{col.total} total</h4>
+                        <h4>{col?.total} {col?.total === 1 ? 'Photo' : 'Photos' }</h4>
 
 
                     </li>

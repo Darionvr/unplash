@@ -1,6 +1,8 @@
 import { connectToDatabase } from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 
+//Ruta para ver a qué colecciones pertenece la foto en /photo/[id]
+
 export async function GET(req: Request, context: { params: Promise<{ imageId: string }> }) {
 
   const { imageId } = await context.params;
@@ -13,7 +15,7 @@ export async function GET(req: Request, context: { params: Promise<{ imageId: st
   const db = client.db('unsplash');
 
   const collections = await db.collection('collections')
-    .find({ images: { $elemMatch: { id: imageId } } }) // ✅ si guardas como string
+    .find({ images: { $elemMatch: { id: imageId } } }) 
     .toArray();
 
   const formatted = collections.map((col) => ({

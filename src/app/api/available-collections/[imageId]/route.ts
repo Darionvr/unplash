@@ -7,9 +7,8 @@ export async function GET(req: Request, context: { params: Promise<{ imageId: st
   const client = await connectToDatabase();
   const db = client.db('unsplash');
 
-  // ✅ usar el ID como string, no como ObjectId
   const collections = await db.collection('collections')
-    .find({ images: { $nin: [imageId] } }) // asumiendo que guardas los IDs como string
+    .find({ images: { $nin: [imageId] } }) 
     .toArray();
 
   const formatted = collections.map((col) => ({

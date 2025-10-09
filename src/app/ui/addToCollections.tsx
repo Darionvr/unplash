@@ -87,8 +87,8 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
                     placeholder="Collection name"
 
                 />
-                <button onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
-                    Cancel
+                <button className={styles.close} onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
+                    <img  src="/resources/Plus.svg" alt="close icon" />
                 </button>
 
                 {collections.map((c: any) => (

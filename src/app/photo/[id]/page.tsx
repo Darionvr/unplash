@@ -14,6 +14,13 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
     const [photo, setPhoto] = useState<UnsplashPhoto | null>(null)
     const { id } = use(params);
 
+    const rawDate: string = photo?.updated_at ?? '';
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }).format(new Date(rawDate));
+
     const imageData = photo
         ? {
             id: photo.id,
@@ -37,6 +44,7 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
         fetchPhoto();
     }, [id]);
 
+    console.log(photo)
     useEffect(() => {
         const fetchCollections = async () => {
             const res = await fetch(`/api/get-collections/${id}`);
@@ -49,7 +57,7 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
     return (
         <main className={styles.main}>
-            <section>
+            <section className={styles.photoContainer}>
                 {photo && (
                     <Image
                         width={photo.width}
@@ -64,7 +72,7 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     <img src={photo?.user.profile_image.small} alt="user's profile image" />
                     <p> {photo?.user.name}</p>
                 </div>
-                <p className={styles.date}> Published on xx</p>
+                <p className={styles.date}> Publised on {formattedDate}</p>
                 <div className={styles.actions}>
                     <button onClick={() => setIsVisible(true)}> <img src="/resources/Plus.svg" alt="Plus Icon" />Add to collection</button>
                     <button><img src="/resources/down arrow.svg" alt="Download icon" />Download </button>

@@ -2,6 +2,8 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 import { Photo } from '@/lib/definitions';
 
+//Ruta para ver el contenido de la colección en collection/[slug]
+
 export async function GET(req: Request, context: { params: Promise<{ slug: string }> }) {
 
     const { slug } = await context.params;
@@ -28,6 +30,7 @@ export async function GET(req: Request, context: { params: Promise<{ slug: strin
         collection: {
             _id: collection._id.toString(),
             name: collection.name,
+             total: collection.images?.length || 0,
         },
         photos: formatted,
     });

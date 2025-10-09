@@ -35,7 +35,7 @@ export default function CollectionDetail({ params }: { params: Promise<{ slug: s
   return (
     <main className={style.main}>
       <h1 className={style.gradient}>{collection?.name}</h1>
-      <p> xx Photos</p>
+      <p> {collection?.total} {collection?.total === 1 ? 'Photo' : 'Photos' }</p>
       <ul className={photos.length < 4 ? style.flexGallery : style.columnGallery}>
         {photos.map((photo) => (
           <li key={photo.id} >

@@ -57,3 +57,18 @@
 
     }
 }
+
+.close{
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    transform: rotate(45deg);
+    right: 1.5rem;
+    cursor: pointer;
+    top: 1rem;
+    border: none;
+}

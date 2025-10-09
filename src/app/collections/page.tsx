@@ -18,7 +18,7 @@ export default async function CollectionsPage() {
         _id: col._id.toString(),
         name: col.name,
         thumbnail: col.images?.[0]?.url || null,
-        total: col.total
+        total: col.images?.length || 0,
     }));
 
     console.log(collections)
