@@ -1,27 +1,15 @@
-import { connectToDatabase } from '@/lib/mongodb';
 import CollectionClient from '@/app/ui/collectionClient';
-import Link from 'next/link';
 import { Suspense } from 'react';
 import styles from '@/app/css/collectionsPage.module.css'
 
 export default async function CollectionsPage() {
 
-    const client = await connectToDatabase();
-    const db = client.db('unsplash');
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/collections`, {
+        cache: 'no-store',
+    });
 
-    const rawCollections = await db.collection('collections')
-        .find({})
-        .sort({ createdAt: -1 })
-        .toArray();
+    const collections = await res.json();
 
-    const collections = rawCollections.map((col) => ({
-        _id: col._id.toString(),
-        name: col.name,
-        thumbnail: col.images?.[0]?.url || null,
-        total: col.images?.length || 0,
-    }));
-
-    console.log(collections)
     return (
         <>
             <header className={styles.header}>
