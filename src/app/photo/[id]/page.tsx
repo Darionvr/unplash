@@ -40,12 +40,15 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
         if (photo) fetchCollections();
     }, [photo, isVisible]);
 
-    const rawDate: string = photo?.created_at ?? '';
-    const formattedDate = new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }).format(new Date(rawDate));
+
+    const formattedDate = photo?.created_at && !isNaN(new Date(photo.created_at).getTime())
+  ? new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }).format(new Date(photo.created_at))
+  : 'Fecha no disponible';
+
 
     const imageData = photo
         ? {
