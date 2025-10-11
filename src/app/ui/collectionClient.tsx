@@ -22,7 +22,7 @@ export default function CollectionClient({ collections }: { collections: Collect
             <ul>
                 {collections.map((col) => (
                     <li key={col._id}>
-                        <Link href={`/collections/${col.name} `}>
+                        <Link href={`/collections/${col.name}`}>
                             <img src={col.thumbnail} alt={`Preview de ${col.name}`} />
 
                         </Link>
