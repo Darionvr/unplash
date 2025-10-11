@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import Navbar from "./ui/navbar";
+import { Suspense } from "react";
 
 
 const vietnamPro = Be_Vietnam_Pro({
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${vietnamPro.variable}`}>
         <Navbar/>
-        {children}
+        <Suspense fallback={<p>Cargando página...</p>}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
