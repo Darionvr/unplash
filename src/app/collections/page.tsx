@@ -8,6 +8,11 @@ export default async function CollectionsPage() {
         cache: 'no-store',
     });
 
+    if (!res.ok) {
+        console.error('Error al obtener colecciones:', res.status);
+        return [];
+    }
+
     const collections = await res.json();
 
     return (
