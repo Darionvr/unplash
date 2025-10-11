@@ -1,19 +1,12 @@
 import CollectionClient from '@/app/ui/collectionClient';
 import { Suspense } from 'react';
 import styles from '@/app/css/collectionsPage.module.css'
+import { getCollections } from '@/lib/data';
+import { CollectionsType } from '@/lib/definitions';
 
 export default async function CollectionsPage() {
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/collections`, {
-        cache: 'no-store',
-    });
-
-    if (!res.ok) {
-        console.error('Error al obtener colecciones:', res.status);
-        return [];
-    }
-
-    const collections = await res.json();
+    const collections  =  await getCollections()
 
     return (
         <>
