@@ -28,7 +28,10 @@ export default async function CollectionsPage() {
                 <h1 className={styles.gradient}>Collections</h1>
                 <h2>
                     Explore the world through collections of beautiful photos free to use under the{' '}
-                    <Link href="https://unsplash.com/es/licencia">Unsplash Licence</Link>
+
+                    <a href="https://unsplash.com/es/licencia" target="_blank" rel="noopener noreferrer">
+                        Ir a Unsplash
+                    </a>
                 </h2>
             </header>
             <Suspense fallback={<p>Cargando colecciones...</p>}>
