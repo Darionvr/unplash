@@ -20,21 +20,18 @@ export default function CollectionClient({ collections }: { collections: Collect
         <main className={styles.main}>
 
             <ul>
-                {collections.length > 0 && (
-                    collections.map((col) => (
-                        <li key={col._id}>
-                            <Link href={`/collections/${col.name}`}>
-                                <img src={col.thumbnail} alt={`Preview de ${col.name}`} />
+                {collections.map((col) => (
+                    <li key={col._id}>
+                        <Link href={`/collections/${col.name}`}>
+                            <img src={col.thumbnail} alt={`Preview de ${col.name}`} />
 
-                            </Link>
-                            <h3>{col.name}</h3>
-                            <h4>{col?.total} {col?.total === 1 ? 'Photo' : 'Photos'}</h4>
+                        </Link>
+                        <h3>{col.name}</h3>
+                        <h4>{col?.total} {col?.total === 1 ? 'Photo' : 'Photos' }</h4>
 
 
-                        </li>
-                    ))
-                )
-                }
+                    </li>
+                ))}
                 <li>
                     <button onClick={() => setIsVisible(true)}>
                         <img src="/resources/Plus.svg" alt="Add collection" />
