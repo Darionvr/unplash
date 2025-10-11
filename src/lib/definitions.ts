@@ -2,7 +2,7 @@ export type UnsplashPhoto = {
   id: string;
   alt_description: string;
   description: string;
-  updated_at: string;
+  created_at: string;
   urls: {
     regular: string;
     full: string;

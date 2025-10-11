@@ -14,7 +14,33 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
     const [photo, setPhoto] = useState<UnsplashPhoto | null>(null)
     const { id } = use(params);
 
-    const rawDate: string = photo?.updated_at ?? '';
+
+    useEffect(() => {
+        if (!id) return;
+        const fetchPhoto = async () => {
+            const res = await fetch(`/api/photo/${id}`);
+            if (!res.ok) {
+                console.error('Error al obtener la foto:', res.status);
+                return;
+            }
+            const data = await res.json();
+            setPhoto(data);
+        };
+        fetchPhoto();
+    }, []);
+
+    console.log(photo)
+    useEffect(() => {
+        const fetchCollections = async () => {
+            const res = await fetch(`/api/get-collections/${id}`);
+            const data = await res.json();
+            setCollections(data);
+        };
+
+        if (photo) fetchCollections();
+    }, [photo, isVisible]);
+
+    const rawDate: string = photo?.created_at ?? '';
     const formattedDate = new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'long',
@@ -30,30 +56,6 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
         }
         : null;
 
-    useEffect(() => {
-        if (!id) return;
-        const fetchPhoto = async () => {
-            const res = await fetch(`/api/photo/${id}`);
-            if (!res.ok) {
-                console.error('Error al obtener la foto:', res.status);
-                return;
-            }
-            const data = await res.json();
-            setPhoto(data);
-        };
-        fetchPhoto();
-    }, [id]);
-
-    console.log(photo)
-    useEffect(() => {
-        const fetchCollections = async () => {
-            const res = await fetch(`/api/get-collections/${id}`);
-            const data = await res.json();
-            setCollections(data);
-        };
-
-        if (photo) fetchCollections();
-    }, [photo, isVisible]);
 
     return (
         <main className={styles.main}>
