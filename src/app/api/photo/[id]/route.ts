@@ -1,7 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest} from 'next/server';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-  const res = await fetch(`https://api.unsplash.com/photos/${params.id}`, {
+export async function GET(req: NextRequest, context: { params:{ id: string } }) {
+
+    const { id } = context.params;
+    
+  const res = await fetch(`https://api.unsplash.com/photos/${id}`, {
     headers: {
       Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
       'Accept-Version': 'v1',
