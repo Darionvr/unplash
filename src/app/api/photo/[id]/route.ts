@@ -1,8 +1,8 @@
 import { NextResponse, NextRequest} from 'next/server';
 
-export async function GET(req: NextRequest, context: { params:{ id: string } }) {
+export async function GET(req: NextRequest, context: { params:Promise<{ id: string }> }) {
 
-    const { id } = context.params;
+    const { id } = await context.params;
     
   const res = await fetch(`https://api.unsplash.com/photos/${id}`, {
     headers: {
