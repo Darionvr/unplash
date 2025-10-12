@@ -10,11 +10,11 @@
 .navbar ul {
   display: flex;
   list-style-type: none;
-  gap: 1.5rem;
+  
 }
 
 .navbar li > a{
-  padding: .8rem 15%;
+  padding: .8rem 1rem;
   border-radius: 8px;
   transition: background-color .3s ease-out;
 }

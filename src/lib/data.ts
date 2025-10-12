@@ -2,22 +2,22 @@ import { connectToDatabase } from "./mongodb";
 import { CollectionsType, UnsplashPhoto, Photo } from "./definitions";
 
 export async function getCollections(): Promise<CollectionsType[]> {
-    const client = await connectToDatabase();
-    const db = client.db('unsplash');
+  const client = await connectToDatabase();
+  const db = client.db('unsplash');
 
-    const rawCollections = await db.collection('collections')
-        .find({})
-        .sort({ createdAt: -1 })
-        .toArray();
+  const rawCollections = await db.collection('collections')
+    .find({})
+    .sort({ createdAt: -1 })
+    .toArray();
 
-    const collections = rawCollections.map((col) => ({
-        _id: col._id.toString(),
-        name: col.name,
-        thumbnail: col.images?.[0]?.url || null,
-        total: col.images?.length || 0,
-    }));
+  const collections = rawCollections.map((col) => ({
+    _id: col._id.toString(),
+    name: col.name,
+    thumbnail: col.images?.[0]?.url || null,
+    total: col.images?.length || 0,
+  }));
 
-    return collections;
+  return collections;
 }
 
 export async function getCollectionDetails(slug: string): Promise<{ collection: CollectionsType; photos: UnsplashPhoto[] }> {

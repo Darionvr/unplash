@@ -21,17 +21,26 @@
     gap: 1rem;
 }
 
+.dialog ul{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+ 
+}
+
 .dialog input {
     padding: .8rem;
     background-color: white;
     font-family: var(--font-vietnam-pro);
     border: solid 1px var(--color-light-gray);
     border-radius: 8px;
+    font-size: 1rem;
 }
 
 .collection {
     display: flex;
     align-items: center;
+    width: 100%;
     gap: 1rem;
     border-radius: 8px;
     padding: .5rem;

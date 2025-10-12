@@ -27,6 +27,7 @@
     border-radius: 8px;
     font-family: var(--font-vietnam-pro);
     font-weight: 400;
+    font-size: 1rem;
 }
 
 .dialog::backdrop {

@@ -16,8 +16,15 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
     const [collections, setCollections] = useState<CollectionsType[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const [feedback, setFeedback] = useState('');
+    const [filterText, setFilterText] = useState('');
+
     const router = useRouter()
     const dialogRef = useRef<HTMLDialogElement>(null);
+
+    const filteredCollections = collections.filter((col) =>
+        col.name.toLowerCase().includes(filterText.toLowerCase())
+    );
+
 
     useEffect(() => {
         if (isVisible && dialogRef.current) {
@@ -77,22 +84,33 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
                 <input
                     type="text"
                     placeholder="Collection name"
+                    value={filterText}
+                    onChange={(e) => setFilterText(e.target.value)}
 
                 />
                 <button className={styles.close} onClick={() => { setIsVisible(false); dialogRef.current?.close(); }}>
-                    <img  src="/resources/Plus.svg" alt="close icon" />
+                    <img src="/resources/Plus.svg" alt="close icon" />
                 </button>
+                {filteredCollections.length === 0 ? (
+                    <p>No matching collections found</p>
+                ) : (
+                    <ul>
+                        {filteredCollections.map((c) => (
+                            <li key={c._id} >
+                                <button className={styles.collection} onClick={() => handleSave(c._id)} disabled={isSaving}>
+                                    <img src={c.thumbnail} alt="Collection thumbnail" />
+                                    <p>{c.name}</p>
+                                    <div className={styles.add}>
+                                        <img src="/resources/Plus.svg" alt="Add icon" />
+                                        <p> {isSaving ? 'Saving...' : 'Add to collection'}</p>
+                                    </div>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
 
-                {collections.map((c) => (
-                    <button key={c._id} className={styles.collection} onClick={() => handleSave(c._id)} disabled={isSaving}>
-                        <img src={c.thumbnail} alt="Collection thumbnail" />
-                        <p>{c.name}</p>
-                        <div className={styles.add}>
-                            <img src="/resources/Plus.svg" alt="Add icon" />
-                            <p> {isSaving ? 'Saving...' : 'Add to collection'}</p>
-                        </div>
-                    </button>
-                ))}
+
                 {feedback && <p className="text-red-500 mt-2">{feedback}</p>}
             </div>
         </dialog>

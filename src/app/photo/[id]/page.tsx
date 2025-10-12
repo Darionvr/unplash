@@ -61,10 +61,7 @@ export default async function PhotoPage({ params }: { params: Promise<{ id: stri
                                         <p>{col.name}</p>
                                         <p className={styles.total}>{col.total} Photos</p>
                                     </div>
-                                    <div className={styles.remove}>
-                                        <img src="/resources/Remove.svg" alt="remove icon" />
-                                        <p>remove</p>
-                                    </div>
+                                   
                                 </Link>
                             </li>
                         ))}
