@@ -3,10 +3,8 @@ import styles from "./page.module.css";
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Search from "./ui/search";
-import Link from "next/link";
-import Image from "next/image";
 import { UnsplashPhoto } from "@/lib/definitions";
-
+import Gallery from "./ui/gallery";
 
 export default function Home() {
 
@@ -26,7 +24,6 @@ export default function Home() {
       const data = await res.json();
       setImages(data.results);
     };
-
     fetchImages();
   }, [query]);
 
@@ -37,23 +34,8 @@ export default function Home() {
   return (
     <main className={styles.main} data-visible={isVisible ? 'true' : 'false'}>
       <div className={styles.gradient} />
-
       <Search placeholder="Enter your keywords" isVisible={isVisible} setIsVisible={setIsVisible} />
-
-      {isVisible &&
-        <ul className={styles.gallery} >
-          {images.map((img) => (
-            <li key={img.id}>  <Link href={`/photo/${img.id}`}>
-              <Image src={img.urls.small}
-              alt={img.alt_description || 'Unsplash image'}
-              height={img.height}
-              width={img.width}/>
-            </Link>
-            </li>
-          ))}
-        </ul>}
-
-
+      {isVisible && <Gallery images={images}/>}
     </main>
   );
 }

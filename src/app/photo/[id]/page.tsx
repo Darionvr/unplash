@@ -1,63 +1,33 @@
-'use client'
-import React, { useEffect, useState, use } from 'react'
-import AddToCollectionsDialog from '@/app/ui/addToCollections';
-import { UnsplashPhoto } from '@/lib/definitions';
+import React from 'react'
 import Image from 'next/image';
 import styles from '@/app/css/photoPage.module.css'
-import { CollectionsType } from '@/lib/definitions';
 import Link from 'next/link';
+import AddToCollectionsClient from '@/app/ui/addtoCollectionClient';
+import { UnsplashPhoto, CollectionsType, Photo } from '@/lib/definitions';
+import { getPhotoById, getCollectionsForPhoto } from '@/lib/data';
 
-const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
+export default async function PhotoPage({ params }: { params: Promise<{ id: string }> }) {
 
-    const [isVisible, setIsVisible] = useState(false);
-    const [collections, setCollections] = useState<CollectionsType[]>([])
-    const [photo, setPhoto] = useState<UnsplashPhoto | null>(null)
-    const { id } = use(params);
+    const { id } = await params;
 
+    const photo: UnsplashPhoto = await getPhotoById(id);
+    const collections: CollectionsType[] = await getCollectionsForPhoto(id);
 
-    useEffect(() => {
-        if (!id) return;
-        const fetchPhoto = async () => {
-            const res = await fetch(`/api/photo/${id}`);
-            if (!res.ok) {
-                console.error('Error al obtener la foto:', res.status);
-                return;
-            }
-            const data = await res.json();
-            setPhoto(data);
-        };
-        fetchPhoto();
-    }, []);
+    const formattedDate =
+        photo?.created_at && !isNaN(new Date(photo.created_at).getTime())
+            ? new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            }).format(new Date(photo.created_at))
+            : 'Fecha no disponible';
 
-    console.log(photo)
-    useEffect(() => {
-        const fetchCollections = async () => {
-            const res = await fetch(`/api/get-collections/${id}`);
-            const data = await res.json();
-            setCollections(data);
-        };
-
-        if (photo) fetchCollections();
-    }, [photo, isVisible]);
-
-
-    const formattedDate = photo?.created_at && !isNaN(new Date(photo.created_at).getTime())
-  ? new Intl.DateTimeFormat('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }).format(new Date(photo.created_at))
-  : 'Fecha no disponible';
-
-
-    const imageData = photo
-        ? {
-            id: photo.id,
-            url: photo.urls.regular,
-            alt: photo.alt_description || '',
-
-        }
-        : null;
+    const imageData: Photo = {
+        id: photo.id,
+        url: photo.urls.regular,
+        alt: photo.alt_description || '',
+        createdAt: photo.created_at
+    };
 
 
     return (
@@ -78,10 +48,7 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
                     <p> {photo?.user.name}</p>
                 </div>
                 <p className={styles.date}> Publised on {formattedDate}</p>
-                <div className={styles.actions}>
-                    <button onClick={() => setIsVisible(true)}> <img src="/resources/Plus.svg" alt="Plus Icon" />Add to collection</button>
-                    <button><img src="/resources/down arrow.svg" alt="Download icon" />Download </button>
-                </div>
+                <AddToCollectionsClient imageData={imageData} />
                 <p className={styles.title}> Collections</p>
 
                 {collections.length > 0 ? (
@@ -105,11 +72,7 @@ const PhotoPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 ) : (
                     <p>You haven’t added this photo to a collection yet</p>
                 )}
-
             </section>
-            {isVisible && imageData && <AddToCollectionsDialog isVisible={isVisible} setIsVisible={setIsVisible} imageData={imageData} />}
         </main>
     )
 }
-
-export default PhotoPage

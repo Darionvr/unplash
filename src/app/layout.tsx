@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "./ui/navbar";
 import { Suspense } from "react";
 
-
 const vietnamPro = Be_Vietnam_Pro({
   variable: "--font-vietnam-pro",
   weight: ["600", "500", "300"],

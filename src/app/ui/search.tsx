@@ -3,7 +3,6 @@ import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import styles from '@/app/page.module.css'
 import { useRef } from 'react';
 
-
 interface SearchProps {
     placeholder: string;
     isVisible: boolean;
@@ -25,15 +24,12 @@ export default function Search({ placeholder, isVisible, setIsVisible }: SearchP
         }
         replace(`${pathname}?${params.toString()}`)
     };
-
     const inputRef = useRef<HTMLInputElement>(null);
-
     const triggerSearch = () => {
         const value = inputRef.current?.value || '';
         handleSearch(value);
         setIsVisible(true);
     };
-
 
     return (
         <div className={styles.search} data-visible={isVisible ? 'true' : 'false'}>
@@ -42,9 +38,7 @@ export default function Search({ placeholder, isVisible, setIsVisible }: SearchP
                     <h1>Search</h1>
                     <p>Search high-resolution images from Unsplash</p>
                 </>
-
             )}
-
             <div>
                 <input
                 ref={inputRef}
@@ -60,6 +54,5 @@ export default function Search({ placeholder, isVisible, setIsVisible }: SearchP
                 <img src="/resources/Search.svg" alt="search icon" onClick={triggerSearch} />
             </div>
         </div>
-
     );
 }

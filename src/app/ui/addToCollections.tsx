@@ -2,18 +2,13 @@
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useState, useRef, useEffect } from 'react';
-import { CollectionsType } from '@/lib/definitions';
+import { CollectionsType, Photo } from '@/lib/definitions';
 import styles from '@/app/css/addToCollections.module.css'
 
 interface DialogProps {
     isVisible: boolean;
     setIsVisible: (visible: boolean) => void;
-
-    imageData: {
-        id: string;
-        url: string;
-        alt: string;
-    };
+    imageData: Photo;
 }
 
 const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogProps) => {
@@ -21,10 +16,7 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
     const [collections, setCollections] = useState<CollectionsType[]>([]);
     const [isSaving, setIsSaving] = useState(false);
     const [feedback, setFeedback] = useState('');
-    console.log(collections)
-
     const router = useRouter()
-
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -101,8 +93,6 @@ const AddToCollectionsDialog = ({ isVisible, setIsVisible, imageData }: DialogPr
                         </div>
                     </button>
                 ))}
-
-
                 {feedback && <p className="text-red-500 mt-2">{feedback}</p>}
             </div>
         </dialog>

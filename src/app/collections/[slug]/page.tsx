@@ -1,50 +1,22 @@
-'use client'
-import React, { useEffect, useState, use } from 'react'
-import { Photo, Collection } from '@/lib/definitions';
-import Link from 'next/link';
+import React from 'react'
 import style from '@/app/css/collectionDetail.module.css'
+import Gallery from '@/app/ui/gallery';
+import { getCollectionDetails } from '@/lib/data';
 
 
+export default async function CollectionDetail({ params }: { params: Promise<{ slug: string }>}) {
 
-export default function CollectionDetail({ params }: { params: Promise<{ slug: string }> }) {
+  const {slug} = await params
 
-  const [photos, setPhotos] = useState<Photo[]>([])
-  const [collection, setCollection] = useState<Collection | null>(null)
-  console.log(photos)
-
-  const { slug } = use(params);
-
-  useEffect(() => {
-    const fetchCollectionDetails = async () => {
-      const res = await fetch(`/api/collection-details/${slug}`);
-      if (!res.ok) {
-        console.error('Error al obtener la colección:', res.status);
-        return;
-      }
-
-      const data = await res.json();
-      setCollection(data.collection);
-      setPhotos(data.photos);
-    };
-
-    fetchCollectionDetails();
-  }, [slug]);
-
-
+ const { collection, photos } = await getCollectionDetails(slug);
 
   return (
     <main className={style.main}>
-      <h1 className={style.gradient}>{collection?.name}</h1>
-      <p> {collection?.total} {collection?.total === 1 ? 'Photo' : 'Photos' }</p>
-      <ul className={photos.length < 4 ? style.flexGallery : style.columnGallery}>
-        {photos.map((photo) => (
-          <li key={photo.id} >
-            <Link href={`/photo/${photo.id}`}>
-              <img src={photo.url} alt={photo.alt} />
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <h1 className={style.gradient}>{collection.name}</h1>
+      <p> {collection.total} {collection.total === 1 ? 'Photo' : 'Photos'}</p>
+
+     {photos?.length> 0 && <Gallery images={photos} />}
+
     </main>
   )
 }
